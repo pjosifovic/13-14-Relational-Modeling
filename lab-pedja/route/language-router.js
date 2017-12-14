@@ -20,7 +20,7 @@ languageRouter.post('/api/languages', jsonParser, (request, response, next) => {
 });
 
 // GET METHOD
-languageRouter.get('/api/language/:id', (request, response, next) => {
+languageRouter.get('/api/languages/:id', (request, response, next) => {
   return Language.findById(request.params.id)
     .then(language => {
       if(!language){
@@ -32,7 +32,7 @@ languageRouter.get('/api/language/:id', (request, response, next) => {
 });
 
 // DELETE METHOD
-languageRouter.delete('/api/language/:id', (request, response, next) => {
+languageRouter.delete('/api/languages/:id', (request, response, next) => {
   return Language.findByIdAndRemove(request.params.id)
     .then(language => {
       if(!language){
@@ -44,7 +44,7 @@ languageRouter.delete('/api/language/:id', (request, response, next) => {
 });
 
 // PUT METHOD
-languageRouter.put('/api/language/:id', jsonParser, (request, response, next) => {
+languageRouter.put('/api/languages/:id', jsonParser, (request, response, next) => {
   let options = { runValidators : true, new : true};
 
   return Language.findByIdAndUpdate(request.params.id, request.body, options)

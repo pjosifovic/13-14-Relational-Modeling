@@ -16,7 +16,7 @@ mongoose.Promise = Promise;
 // SETTING UP ROUTES
 // ---------------------------------------------
 app.use(require('./logger-middleware'));
-app.use(require('../route/language-route'));
+app.use(require('../route/language-router'));
 
 app.all('*', (request, response) => {
   logger.log('info', 'Returning 404 from a catch-all route');
