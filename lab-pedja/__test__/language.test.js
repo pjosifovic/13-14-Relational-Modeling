@@ -90,8 +90,52 @@ describe('/api/languages', () => {
     });
   });
 
-  
+  // DELETE METHOD
+  // -----------------------------------------------------
+  describe('DELETE /api/languages', () => {
+    test('DELETE should respond with code 204 if there is no error', () => {
+      languageMockCreate()
+        .then(language => {
+          return superagent.delete(`${apiURL}/${language._id}`);
+        })
+        .then(response => {
+          expect(response.status).toEqual(204);
+        });
+    });
+    test('DELETE should respond with 404 if ID is invalid', () => {
+      return superagent.delete(`${apiURL}/hound`)
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(404);
+        });
+    });
+  });
 
-
+  // PUT METHOD
+  // -----------------------------------------------------
+  describe('PUT /api/languages/:id', () => {
+    test('PUT should update language origin and respond with code 200 if there is no error', () => {
+      let languageToUpdate = null;
+      return languageMockCreate()
+        .then(language => {
+          languageToUpdate = language;
+          return superagent.put(`${apiURL}/${language._id}`)
+            .send({origin : 'Wonderland'});
+        })
+        .then(response => {
+          expect(response.status).toEqual(200);
+          expect(response.body.origin).toEqual('Wonderland');
+          expect(response.body.name).toEqual(languageToUpdate.name);
+          expect(response.body._id).toEqual(languageToUpdate._id.toString());
+        });
+    });
+    test('PUT should respond with 404 if ID is invalid', () => {
+      return superagent.put(`${apiURL}/gregor`)
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(404);
+        });
+    });
+  });
 
 });
