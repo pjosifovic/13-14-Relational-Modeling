@@ -1,28 +1,15 @@
 'use strict';
 
-process.env.PORT = 3000;
-process.env.MONGODB_URI = 'mongodb://localhost/testing';
+require('./lib/setup');
 
 const faker = require('faker');
 const superagent = require('superagent');
-const Language = require('../model/language');
+// const Language = require('../model/language');
 const server = require('../lib/server');
+const languageMock = require('./lib/language-mock');
+const countryMock = require('./lib/country-mock');
 
 const apiURL = `http://localhost:${process.env.PORT}/api/languages`;
-
-const languageMockCreate = () => {
-  return new Language({
-    name : faker.lorem.word(),
-    origin : faker.address.country(),
-    type : faker.hacker.adjective(),
-  }).save();
-};
-
-const languageMockCreateMany = (howMany) => {
-  return Promise.all(new Array(howMany)
-    .fill(0)
-    .map(() => languageMockCreate()));
-};
 
 describe('/api/languages', () => {
   beforeAll(server.start);
