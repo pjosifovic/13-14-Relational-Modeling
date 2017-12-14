@@ -59,6 +59,23 @@ describe('/api/languages', () => {
           expect(response.status).toEqual(400);
         });
     });
+    test('POST should respond with code 409 if you try to update name property', () => {
+      let languageToPost = {
+        name : faker.lorem.word(),
+        origin : faker.address.country(),
+      };
+      return superagent.post(`${apiURL}`)
+        .send(languageToPost)
+        .then(() => {
+          return superagent.post(`${apiURL}`)
+            .send(languageToPost);
+        })
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(409);
+        });
+    });
+
   });
 
   // GET METHOD
@@ -134,6 +151,41 @@ describe('/api/languages', () => {
         .then(Promise.reject)
         .catch(response => {
           expect(response.status).toEqual(404);
+        });
+    });
+
+    test('PUT should respond with 400 if ID is missing', () => {
+      return superagent.put(`${apiURL}`)
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(400);
+        });
+    });
+
+    test('PUT should respond with code 409 if you try to update name property', () => {
+      let languageToPostOne = {
+        name : 'Natsad',
+        origin : faker.address.country(),
+        type : faker.hacker.adjective(),
+      };
+      let languageToPostTwo = {
+        name : faker.lorem.word(),
+        origin : faker.address.country(),
+        type : faker.hacker.adjective(),
+      };
+      return superagent.post(`${apiURL}`)
+        .send(languageToPostOne)
+        .then(() => {
+          return superagent.post(`${apiURL}`)
+            .send(languageToPostTwo);
+        })
+        .then((response) => {
+          return superagent.put(`${apiURL}/${response.body._id}`)
+            .send({ name : 'Natsad'});
+        })
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(409);
         });
     });
   });

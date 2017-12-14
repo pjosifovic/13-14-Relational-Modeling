@@ -56,3 +56,8 @@ languageRouter.put('/api/languages/:id', jsonParser, (request, response, next) =
       return response.json(language);
     }).catch(next);
 });
+
+languageRouter.put('/api/languages', (request, response, next) => {
+  logger.log('info', 'PUT - Returning a 400 status code - missing language ID');
+  return response.sendStatus(400);
+});
