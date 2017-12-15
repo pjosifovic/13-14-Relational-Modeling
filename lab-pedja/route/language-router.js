@@ -22,6 +22,7 @@ languageRouter.post('/api/languages', jsonParser, (request, response, next) => {
 // GET METHOD
 languageRouter.get('/api/languages/:id', (request, response, next) => {
   return Language.findById(request.params.id)
+    .populate('country')
     .then(language => {
       if(!language){
         throw httpErrors(404, 'language not found, please use valid ID');

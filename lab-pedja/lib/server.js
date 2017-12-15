@@ -16,6 +16,8 @@ mongoose.Promise = Promise;
 // SETTING UP ROUTES
 // ---------------------------------------------
 app.use(require('./logger-middleware'));
+
+app.use(require('../route/country-router'));
 app.use(require('../route/language-router'));
 
 app.all('*', (request, response) => {
