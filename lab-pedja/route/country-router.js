@@ -9,9 +9,9 @@ const countryRouter = module.exports = new Router();
 
 
 // POST METHOD
-countryRouter.post('api/countries', jsonParser, (request, response, next) => {
+countryRouter.post('/api/countries',jsonParser,(request,response,next) => {
   if(!request.body.name)
-    return next(httpErrors(400, 'country model requires a name'));
+    return next(httpErrors(400,'country model requires a name'));
 
   return new Country(request.body).save()
     .then(country => response.json(country))
