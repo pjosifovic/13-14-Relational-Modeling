@@ -32,22 +32,23 @@ countryRouter.put('api/countries/:id', jsonParser, (request, response, next) => 
 });
 
 // GET METHOD
-countryRouter.get('api/countries/:id', (request,response,next) => {
-  return Country.findById(request.params._id)
+countryRouter.get('/api/countries/:id',(request,response,next) => {
+  return Country.findById(request.params.id)
     .then(country => {
       if(!country)
-        throw httpErrors(404, 'country not found');
+        throw httpErrors(404,'country not found');
       return response.json(country);
     })
     .catch(next);
 });
 
 // DELETE METHOD
-countryRouter.delete('api/countries/:id', (request,response,next) => {
-  return Country.findByIdAndRemove(request.params._id)
+countryRouter.delete('/api/countries/:id',(request,response,next) => {
+  return Country.findByIdAndRemove(request.params.id)
     .then(country => {
       if(!country)
-        throw httpErrors(404, 'country not found');
+        throw httpErrors(404,'country not found');
+
       return response.sendStatus(204);
     })
     .catch(next);

@@ -4,7 +4,7 @@ require('./lib/setup');
 
 const superagent = require('superagent');
 const server = require('../lib/server');
-const faker = require('faker');
+// const faker = require('faker');
 const countryMock = require('./lib/country-mock');
 
 const apiURL = `http://localhost:${process.env.PORT}/api/countries`;
@@ -53,6 +53,47 @@ describe('/api/countries', () => {
         .then(Promise.reject)
         .catch(response => {
           expect(response.status).toEqual(400);
+        });
+    });
+  });
+
+  // GET METHOD
+  describe('GET /countries/:id', () => {
+    test('GET should respond with a 200 status if there are no error', () => {
+
+      return countryMock.create()
+        .then(country => {
+          return superagent.get(`${apiURL}/${country._id}`);
+        })
+        .then(response => {
+          expect(response.status).toEqual(200);
+        });
+    });
+    test('GET should respond with 404 code if ID is incorrect', () => {
+      return superagent.get(`${apiURL}/nadsat`)
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(404);
+        });
+    });
+  });
+
+  // DELETE METHOD
+  describe('DELETE /api/countries/:id', () => {
+    test('DELETE should respond with code 204 if there is no error', () => {
+      return countryMock.create()
+        .then(country => {
+          return superagent.delete(`${apiURL}/${country._id}`);
+        })
+        .then(response => {
+          expect(response.status).toEqual(204);
+        });
+    });
+    test('DELETE should respond with 404 code if ID is incorrect', () => {
+      return superagent.delete(`${apiURL}/nadsat`)
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(404);
         });
     });
   });

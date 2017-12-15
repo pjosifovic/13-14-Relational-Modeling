@@ -54,7 +54,7 @@ describe('/api/languages', () => {
           expect(response.status).toEqual(400);
         });
     });
-    // test('POST should respond with code 409 if you try to update name property', () => {
+    // test.('POST should respond with code 409 if you try to update name property', () => {
     //   return languageMock.create()
     //     .then(language => {
     //       return superagent.post(apiURL)
