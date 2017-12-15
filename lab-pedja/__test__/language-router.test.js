@@ -54,20 +54,22 @@ describe('/api/languages', () => {
           expect(response.status).toEqual(400);
         });
     });
-    // test.('POST should respond with code 409 if you try to update name property', () => {
-    //   return languageMock.create()
-    //     .then(language => {
-    //       return superagent.post(apiURL)
-    //         .send({
-    //           name : language.name,
-    //           origin : language.origin,
-    //         });
-    //     })
-    //     .then(Promise.reject)
-    //     .catch(response => {
-    //       expect(response.status).toEqual(409);
-    //     });
-    // });
+
+    test('POST should respond with code 409 if you try to update name property', () => {
+      return languageMock.create()
+        .then(mock => {
+          return superagent.post(apiURL)
+            .send({
+              name : mock.language.name,
+              origin : mock.language.origin,
+              country : mock.country._id,
+            });
+        })
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(409);
+        });
+    });
   });
 
   // GET METHOD
@@ -155,26 +157,25 @@ describe('/api/languages', () => {
         });
     });
 
-    // test('PUT should respond with code 409 if you try to update name property', () => {
-    //   let languageToUpdate = null;
-    //   return languageMock.create()
-    //     .then(mock => {
-    //       languageToUpdate = mock;
-    //       return superagent.post(apiURL)
-    //         .send({
-    //           name : mock.language.name,
-    //           origin : mock.language.origin,
-    //         })
-    //         .then((response) => {
-    //           return superagent.put(`${apiURL}/${response.body._id}`)
-    //             .send({ name : 'Natsad'});
-    //         })
-    //         .then(Promise.reject)
-    //         .catch(response => {
-    //           expect(response.status).toEqual(409);
-    //         });
-    //     });
-    // });
+    test('PUT should respond with code 409 if you try to update name property', () => {
+      return languageMock.create()
+        .then(mock => {
+          return superagent.post(apiURL)
+            .send({
+              name : mock.language.name,
+              origin : mock.language.origin,
+              country : mock.country._id,
+            })
+            .then((response) => {
+              return superagent.put(`${apiURL}/${response.body._id}`)
+                .send({ name : 'Natsad'});
+            })
+            .then(Promise.reject)
+            .catch(response => {
+              expect(response.status).toEqual(409);
+            });
+        });
+    });
   });
 
 });
