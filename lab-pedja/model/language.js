@@ -26,7 +26,7 @@ const languageSchema = mongoose.Schema({
 });
 
 // SETTING UP RELATIONSHIP MANAGEMENT
-
+// ------------------------------------------------
 languageSchema.pre('save', function(done){
   return Country.findById(this.country)
     .then(countryFound => {
@@ -54,5 +54,6 @@ languageSchema.post('remove', (document, done) => {
     .then(() => done())
     .catch(done);
 });
+// ------------------------------------------------
 
 module.exports = mongoose.model('language', languageSchema);
